@@ -19,21 +19,22 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
+    protected final Name name;
+    protected final Phone phone;
+    protected final Email email;
 
     // Data fields
-    private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
-    private final Comment comment;
-    private Class sc;
-    private IndexNumber indexNumber;
+    protected final Address address;
+    protected final Set<Tag> tags = new HashSet<>();
+    protected final Comment comment;
+    protected Sex sex;
 
+    // TODO Add sex field into constructor
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Comment comment) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  Comment comment) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -42,32 +43,18 @@ public class Person {
         this.tags.addAll(tags);
         this.comment = comment;
     }
+
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, tags, sex);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
         this.comment = new Comment();
-    }
-    /**
-     * Every field must be present and not null.
-     */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Class sc,
-                  IndexNumber indexNumber) {
-        requireAllNonNull(name, phone, email, address, tags, sc, indexNumber);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.tags.addAll(tags);
-        this.comment = new Comment();
-        this.sc = sc;
-        this.indexNumber = indexNumber;
     }
 
     public Name getName() {
@@ -89,12 +76,6 @@ public class Person {
     public Comment getComment() {
         return comment;
     }
-    public Class getStudentClass() {
-        return sc;
-    }
-    public IndexNumber getIndexNumber() {
-        return indexNumber;
-    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -113,14 +94,18 @@ public class Person {
             return true;
         }
 
-        if ((otherPerson instanceof Student) || (otherPerson instanceof Parent)) {
-            return otherPerson != null
-                    && otherPerson.getStudentClass().equals(getStudentClass())
-                    && otherPerson.getIndexNumber().equals(getIndexNumber());
+        if (otherPerson instanceof Parent && this instanceof Parent) {
+            return otherPerson.equals(this);
         }
+        if (otherPerson instanceof Student && this instanceof Student) {
+            Student other = (Student) otherPerson;
+            Student thisStudent = (Student) this;
+            return other.equals(thisStudent);
+        }
+
         //Need to rethink what constitutes same student
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        // Use the equal method in student and parent
+        return otherPerson.equals(this);
     }
 
     /**

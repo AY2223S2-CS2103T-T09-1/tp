@@ -2,6 +2,7 @@ package seedu.address.model.person.parent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -94,26 +95,7 @@ public class Parent extends Person {
         children.add(student);
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof Parent)) {
-            return false;
-        }
-
-        Parent otherParent = (Parent) other;
-        return otherParent.getName().equals(getName())
-                && otherParent.getAge().equals(getAge())
-                && otherParent.getImage().equals(getImage())
-                && otherParent.getPhone().equals(getPhone())
-                && otherParent.getEmail().equals(getEmail())
-                && otherParent.getAddress().equals(getAddress())
-                && otherParent.getTags().equals(getTags())
-                && otherParent.getChildren().equals(getChildren());
-    }
+    // Equals method can be inherited from the person class
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package seedu.address.model.person.student;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -21,7 +22,6 @@ import seedu.address.model.tag.Tag;
  */
 public class Student extends Person {
     private final IndexNumber indexNumber;
-    private final Sex sex;
     private final ParentName parentName;
     private final Age age;
     private final Image image;
@@ -56,7 +56,7 @@ public class Student extends Person {
                    Set<Homework> homework, Set<Test> test, Set<Tag> tags, Comment comment) {
         super(name, phone, email, address, tags);
         this.indexNumber = indexNumber;
-        this.sex = sex;
+        super.sex = sex;
         this.parentName = parentName;
         this.age = age;
         this.image = image;
@@ -170,25 +170,23 @@ public class Student extends Person {
      * A method that returns a boolean value to indicate if other is equal to this Student.
      * Note that this method only checks for attributes that are unique and unchanging to Student.
      *
-     * @param other
-     * @return
+     * @param o Other object to be compared to.
+     * @return Boolean value to indicate if other is equal to this Student.
      */
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof Student)) {
-            return false;
-        }
-
-        Student otherStudent = (Student) other;
-        return otherStudent.getName().equals(getName())
-                && otherStudent.getClass().equals(getClass())
-                && otherStudent.getIndexNumber().equals(getIndexNumber())
-                && otherStudent.getSex().equals(getSex());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Student student = (Student) o;
+        return Objects.equals(indexNumber, student.indexNumber) && Objects.equals(sc, student.sc);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), indexNumber, sc);
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
