@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_AGE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_QUIET;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -81,21 +80,24 @@ public class ParentTest {
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
-        editedAlice = new ParentBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
+        // (REMOVED as no Parent/NOK can share same number with another Parent/NOK!)
+        //editedAlice = new ParentBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        //assertFalse(ALICE.isSamePerson(editedAlice));
 
         // different phone number, all other attributes same -> returns false
         editedAlice = new ParentBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
         // name differs in case, all other attributes same -> returns false
-        Person editedBob = new ParentBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // (REMOVED as no Parent/NOK can share same number with another Parent/NOK!)
+        //Person editedBob = new ParentBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
+        //assertFalse(BOB.isSamePerson(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
-        String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new ParentBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // (REMOVED as no Parent/NOK can share same number with another Parent/NOK!)
+        // String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
+        // editedBob = new ParentBuilder(BOB).withName(nameWithTrailingSpaces).build();
+        // assertFalse(BOB.isSamePerson(editedBob));
     }
 
     @Test
@@ -117,11 +119,12 @@ public class ParentTest {
         assertFalse(ALICE.equals(BOB));
 
         // different name -> returns false
-        Person editedAlice = new ParentBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        // (REMOVED as no Parent/NOK can share same number with another Parent/NOK!)
+        // Person editedAlice = new ParentBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        // assertFalse(ALICE.equals(editedAlice));
 
         // different age -> returns false
-        editedAlice = new ParentBuilder(ALICE).withAge(VALID_AGE_BOB).build();
+        Parent editedAlice = new ParentBuilder(ALICE).withAge(VALID_AGE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different phone -> returns false

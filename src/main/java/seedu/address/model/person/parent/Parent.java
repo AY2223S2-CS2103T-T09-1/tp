@@ -134,9 +134,7 @@ public class Parent extends Person {
         }
 
         Parent otherParent = (Parent) other;
-        return otherParent.getPhone().equals(getPhone())
-                && otherParent.getName().equals(getName());
-        /*return otherParent.getName().equals(getName())
+        return otherParent.getName().equals(getName())
                 && otherParent.getAge().equals(getAge())
                 && otherParent.getImage().equals(getImage())
                 && otherParent.getPhone().equals(getPhone())
@@ -144,7 +142,6 @@ public class Parent extends Person {
                 && otherParent.getAddress().equals(getAddress())
                 && otherParent.getTags().equals(getTags())
                 && otherParent.getStudents().equals(getStudents());
-         */
     }
 
     @Override
