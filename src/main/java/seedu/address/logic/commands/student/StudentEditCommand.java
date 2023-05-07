@@ -13,8 +13,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWINDEXNUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWPARENTNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWPHONEPARENT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWRELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONESTUDENT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENTAGE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_STUDENTS;
@@ -24,6 +24,7 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.Messages;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -72,7 +73,7 @@ public class StudentEditCommand extends StudentCommand {
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_NEWPARENTNAME + "PARENT NAME "
             + PREFIX_NEWPHONEPARENT + "PARENT PHONE NUMBER "
-            + PREFIX_RELATIONSHIP + "RELATIONSHIP "
+            + PREFIX_NEWRELATIONSHIP + "RELATIONSHIP "
             + "]\n"
             + "Example: \n" + "student 1A " + COMMAND_WORD + " "
             + PREFIX_INDEXNUMBER + "02 "
@@ -89,7 +90,7 @@ public class StudentEditCommand extends StudentCommand {
             + PREFIX_ADDRESS + "Blk 245 Ang Mo Kio Avenue 1 #11-800 S(560245) "
             + PREFIX_NEWPARENTNAME + "Tan Ah Seng "
             + PREFIX_NEWPHONEPARENT + "98989898 "
-            + PREFIX_RELATIONSHIP + "FATHER";
+            + PREFIX_NEWRELATIONSHIP + "FATHER";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Edited student: %1$s; Class: %2$s; Index Number: %3$s;";
 
@@ -165,7 +166,7 @@ public class StudentEditCommand extends StudentCommand {
     /**
      * Creates and returns a {@code Student} with the details of {@code student}
      */
-    public Student createEditedStudent(Student student) {
+    public Student createEditedStudent(Student student) throws CommandException {
         if (Name.isDefaultName(newName.fullName)) {
             this.newName = student.getName();
         }
@@ -177,6 +178,16 @@ public class StudentEditCommand extends StudentCommand {
         }
         if (Phone.isDefaultPhone(newParentPhoneNumber.value)) {
             this.newParentPhoneNumber = student.getParentNumber();
+        } else {
+            if (Relationship.isDefaultRelationship(newRelationship.rls)) {
+                throw new CommandException(Messages.MESSAGE_RELATIONSHIP_NOT_FOUND);
+            }
+            if (Name.isDefaultName(newParentName.fullName)) {
+                throw new CommandException(Messages.MESSAGE_PARENT_NAME_NOT_FOUND);
+            }
+        }
+        if (Relationship.isDefaultRelationship(newRelationship.rls)) {
+            this.newRelationship = student.getRls();
         }
         if (Phone.isDefaultPhone(newStudentPhoneNumber.value)) {
             this.newStudentPhoneNumber = student.getPhone();
@@ -201,9 +212,6 @@ public class StudentEditCommand extends StudentCommand {
         }
         if (Sex.isDefaultSex(newSex.value)) {
             this.newSex = student.getSex();
-        }
-        if (Relationship.isDefaultRelationship(newRelationship.rls)) {
-            this.newRelationship = student.getRls();
         }
         if (Name.isDefaultName(newParentName.fullName)) {
             this.newParentName = student.getParentName();
@@ -249,8 +257,7 @@ public class StudentEditCommand extends StudentCommand {
         ObservableList<Parent> parents = model.getFilteredParentList();
         if (student.getParentName() != oldStudent.getParentName()) { // Parent changed his/her name
             for (Parent p : parents) {
-                if ((p.getPhone().equals(oldStudent.getParentNumber())) && (p.getName().equals(
-                        oldStudent.getParentName()))) {
+                if (p.getPhone().equals(oldStudent.getParentNumber())) {
                     Parent newParent = new Parent(student.getParentName(), p.getAge(), p.getImage(), p.getEmail(),
                             p.getPhone(), p.getAddress(), p.getTags());
                     newParent = editParent(p, newParent, model);
@@ -263,7 +270,7 @@ public class StudentEditCommand extends StudentCommand {
         Phone parentNumber = student.getParentNumber();
         Name parentName = student.getParentName();
         for (Parent p : parents) { // Parent did not change any particulars
-            if ((p.getPhone().equals(parentNumber)) && (p.getName().equals(parentName))) {
+            if (p.getPhone().equals(parentNumber)) {
                 student.setParent(p);
                 Parent newParent = p;
                 newParent.addStudent(student); //bind student to parent
@@ -287,8 +294,7 @@ public class StudentEditCommand extends StudentCommand {
     public Student changeParent(Student student, Model model, Student oldStudent) {
         ObservableList<Parent> parents = model.getFilteredParentList();
         for (Parent p : parents) {
-            if ((p.getPhone().equals(oldStudent.getParentNumber())) && (p.getName().equals(
-                    oldStudent.getParentName()))) {
+            if (p.getPhone().equals(oldStudent.getParentNumber())) {
                 if (p.getStudents().size() == 1) { // Removes parent if this is the only student binded to him/her
                     model.deleteParent(p);
                 } else { // Remove student binding to original parent
@@ -297,8 +303,7 @@ public class StudentEditCommand extends StudentCommand {
                     model.setParent(originalParent, p);
                 }
                 for (Parent np : parents) { // Locating new parent in existing parents
-                    if ((np.getPhone().equals(student.getParentNumber())) && (np.getName().equals(
-                            student.getParentName()))) {
+                    if (np.getPhone().equals(student.getParentNumber())) {
                         student.setParent(np);
                         Parent newParent = np;
                         np.addStudent(student);
