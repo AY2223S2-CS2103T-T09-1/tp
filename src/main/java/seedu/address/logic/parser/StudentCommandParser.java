@@ -27,6 +27,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWINDEXNUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWPARENTNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWPHONEPARENT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEWRELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENTNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONEPARENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONESTUDENT;
@@ -166,7 +167,7 @@ public class StudentCommandParser implements Parser<StudentCommand> {
      */
     private ArgumentMultimap getArgEdit(String arguments) {
         return ArgumentTokenizer.tokenize(arguments, PREFIX_EDIT, PREFIX_NAME, PREFIX_INDEXNUMBER, PREFIX_SEX,
-                PREFIX_NEWPARENTNAME, PREFIX_NEWPHONEPARENT, PREFIX_RELATIONSHIP, PREFIX_STUDENTAGE,
+                PREFIX_NEWPARENTNAME, PREFIX_NEWPHONEPARENT, PREFIX_NEWRELATIONSHIP, PREFIX_STUDENTAGE,
                 PREFIX_IMAGESTUDENT, PREFIX_EMAILSTUDENT, PREFIX_PHONESTUDENT, PREFIX_CCA, PREFIX_ADDRESS,
                 PREFIX_NEWCLASS, PREFIX_NEWINDEXNUMBER, PREFIX_NEWNAME, PREFIX_COMMENT);
 
@@ -451,7 +452,7 @@ public class StudentCommandParser implements Parser<StudentCommand> {
         Comment newComment = ParserUtil.parseComment(argMultimap.getValue(PREFIX_COMMENT).get());
         Name newParentName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NEWPARENTNAME).get());
         Phone newParentPhoneNumber = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_NEWPHONEPARENT).get());
-        Relationship newRelationship = ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP).get());
+        Relationship newRelationship = ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_NEWRELATIONSHIP).get());
         return new StudentEditCommand(newName, indexNumber, newIndexNumber, studentClass, newStudentClass, newSex,
                 newParentPhoneNumber, newParentName, newRelationship, newAge, newImage, newCca,
                 newComment, newStudentPhoneNumber, newEmail, newAddress);

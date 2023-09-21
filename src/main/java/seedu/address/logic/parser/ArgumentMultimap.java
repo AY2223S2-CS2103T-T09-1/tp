@@ -37,7 +37,7 @@ public class ArgumentMultimap {
     public Optional<String> getValue(Prefix prefix) {
         if (!argMultimap.containsKey(prefix)) {
             switch(prefix.getPrefix()) {
-            case "rls/":
+            case "nrls/":
                 Optional<String> missingRelationship = Optional.of("Insert parent relationship to student here!");
                 return missingRelationship;
             case "s/":

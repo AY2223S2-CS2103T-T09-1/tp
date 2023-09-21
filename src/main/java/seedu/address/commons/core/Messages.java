@@ -25,4 +25,8 @@ public class Messages {
 
     public static final String MESSAGE_INVALID_WEIGHTAGE =
             "Error! The weightage should add up to less than or equals to 100%";
+    public static final String MESSAGE_RELATIONSHIP_NOT_FOUND = "The relationship of the parent/NOK to the student "
+            + "cannot be found! Please re-enter with the relationship!";
+    public static final String MESSAGE_PARENT_NAME_NOT_FOUND = "Missing name for parent/NOK! Please re-enter with "
+            + "the corresponding name!";
 }
